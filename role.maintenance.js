@@ -11,7 +11,7 @@ var roleMaintenance = {
         }
 
         if(creep.memory.repairing) {
-            var targets = creep.pos.findClosestByPath(FIND_STRUCTURES, { filter: function(object){ return (object.structureType != STRUCTURE_WALL && object.hits < object.hitsMax)}});
+            var targets = creep.pos.findClosestByPath(FIND_STRUCTURES, { filter: function(object){ return (object.structureType != STRUCTURE_WALL  && object.hits < object.hitsMax)}});
             if(targets) {
                 if(creep.repair(targets) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets, {visualizePathStyle: {stroke: '#ffffff'}});
