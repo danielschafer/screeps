@@ -1,30 +1,23 @@
-var roleHarvester = require('role.harvester');
-var roleUpgrader = require('role.upgrader');
-var roleBuilder = require('role.builder');
-var roleSoldier = require('role.soldier');
-var roleMaintenance = require('role.maintenance');
+var roleHarvester       = require('role.harvester');
+var roleUpgrader        = require('role.upgrader');
+var roleBuilder         = require('role.builder');
+var roleSoldier         = require('role.soldier');
+var roleMaintenance     = require('role.maintenance');
+var roleTower           = require('role.tower');
+var roleMiner           = require('role.miner');
+var roleLorry           = require('role.lorry');
 
-var createCreeps = require('create.creeps');
-var createRepairAndAttack = require('create.repairandattack');
+var createCreeps        = require('create.creeps');
+var createStructures    = require('create.structures');
+
 
 module.exports.loop = function () {
     createCreeps.run();
-    createRepairAndAttack.run();
-
-    var tower = Game.getObjectById('5e57a9367de01d7e7c2c9822');
-    if(tower) {
-        var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure) => structure.hits < structure.hitsMax
-        });
-        if(closestDamagedStructure) {
-            tower.repair(closestDamagedStructure);
-        }
-
-        var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-        if(closestHostile) {
-            tower.attack(closestHostile);
-        }
+    if (Game.time % 10 == 0) { 
+        createStructures.run();
     }
+
+    roleTower.run();
 
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
@@ -42,6 +35,12 @@ module.exports.loop = function () {
         }
         if(creep.memory.role == 'maintenance'){
             roleMaintenance.run(creep);
+        }
+        if(creep.memory.role == 'miner'){
+            roleMiner.run(creep);
+        }
+        if(creep.memory.role == 'lorry'){
+            roleLorry.run(creep);
         }
     }
 }
