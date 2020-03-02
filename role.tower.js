@@ -14,10 +14,15 @@ var roleTower = {
                 return structure.structureType == STRUCTURE_TOWER;
             }
         });
+               
         for( var tower in myTowers){
             var closestHostile = myTowers[tower].pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+            var mostDamagedCreep = Game.spawns['Spawn1'].room.find(FIND_MY_CREEPS, { filter: (creep) => /*structure.structureType == STRUCTURE_WALL  &&*/ creep.hits < creep.hitsMax });
+            mostDamagedCreep.sort(function(a, b) {return (b.hitsMax - b.hits)-(a.hitsMax - a.hits)});
             if(closestHostile) {
                 myTowers[tower].attack(closestHostile);
+            }else if(mostDamagedCreep[0]){
+                myTowers[tower].heal(mostDamagedCreep[0]);
             }else{
                 //console.log('tower: ' + myTowers[tower].pos);
                 var closestDamagedStructure = myTowers[tower].pos.findClosestByRange(FIND_STRUCTURES, { filter: (structure) => structure.structureType != STRUCTURE_WALL  && structure.hits < structure.hitsMax });
@@ -37,12 +42,6 @@ var roleTower = {
                         myTowers[tower].repair(mostDamagedStructure[0]);
                     }
                 }
-            }
-
-            var mostDamagedCreep = Game.spawns['Spawn1'].room.find(FIND_CREEPS, { filter: (creep) => /*structure.structureType == STRUCTURE_WALL  &&*/ creep.hits < creep.hitsMax });
-            mostDamagedCreep.sort(function(a, b) {return (b.hitsMax - b.hits)-(a.hitsMax - a.hits)});
-            if(mostDamagedCreep[0]) {
-                myTowers[tower].heal(mostDamagedCreep[0]);
             }
         }
     }
