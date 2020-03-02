@@ -27,12 +27,7 @@ var createCreeps = {
             if(containers.length == 0){ minNumberOfLorries = 0; }
             //else if (Object.keys(Game.creeps).length > 3){ minNumberOfHarvesters = 0; }
         }
-    
-        console.log('********************');
-        console.log('*** CREEP STATUS ***');
-        console.log('********************');
-        console.log('EnergyAvailable: '+ Game.spawns['Spawn1'].room.energyAvailable + '/' + + Game.spawns['Spawn1'].room.energyCapacityAvailable);
-        console.log('No of creeps: ' + Object.keys(Game.creeps).length + '/' + (minNumberOfHarvesters+minNumberOfUpgraders+minNumberOfBuilders+minNumberOfSoldiers+minNumberOfMaintenancers+minNumberOfLorries+minNumberOfMiners));
+
         for(var name in Memory.creeps) {
             if(!Game.creeps[name]) {
                 delete Memory.creeps[name];
@@ -40,23 +35,32 @@ var createCreeps = {
             }
         }
 
+        // get number of creeps alive
         var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
-        console.log('Harvesters: ' + harvesters.length+'/'+minNumberOfHarvesters);
         var upgrader = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
-        console.log('Upgrader: ' + upgrader.length + '/' + minNumberOfUpgraders);
         var builder = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
-        console.log('builder: ' + builder.length + '/' + minNumberOfBuilders);
         var soldier = _.filter(Game.creeps, (creep) => creep.memory.role == 'soldier');
-        console.log('soldier: ' + soldier.length + '/' + minNumberOfSoldiers);
         var maintenance = _.filter(Game.creeps, (creep) => creep.memory.role == 'maintenance');
-        console.log('maintenance: ' + maintenance.length + '/' + minNumberOfMaintenancers);
         var lorry = _.filter(Game.creeps, (creep) => creep.memory.role == 'lorry');
-        console.log('lorry: ' + lorry.length + '/' + minNumberOfLorries);
         var miner = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner');
+        
+
+        if(miner.length  == 0)                  { minNumberOfLorries    = 0; }
+        if(lorry.length >= minNumberOfLorries)  { minNumberOfHarvesters = 0; }
+
+        console.log('********************');
+        console.log('*** CREEP STATUS ***');
+        console.log('********************');
+        console.log('EnergyAvailable: '+ Game.spawns['Spawn1'].room.energyAvailable + '/' + + Game.spawns['Spawn1'].room.energyCapacityAvailable);
+        console.log('No of creeps: ' + Object.keys(Game.creeps).length + '/' + (minNumberOfHarvesters+minNumberOfUpgraders+minNumberOfBuilders+minNumberOfSoldiers+minNumberOfMaintenancers+minNumberOfLorries+minNumberOfMiners));
+        console.log('Harvesters: ' + harvesters.length+'/'+minNumberOfHarvesters);
+        console.log('Upgrader: ' + upgrader.length + '/' + minNumberOfUpgraders);
+        console.log('builder: ' + builder.length + '/' + minNumberOfBuilders);
+        console.log('soldier: ' + soldier.length + '/' + minNumberOfSoldiers);
+        console.log('lorry: ' + lorry.length + '/' + minNumberOfLorries);
+        console.log('maintenance: ' + maintenance.length + '/' + minNumberOfMaintenancers);
         console.log('miner: ' + miner.length + '/' + minNumberOfMiners);
 
-        if(miner.length  == 0){ minNumberOfLorries = 0; }
-        
 
         if(Object.keys(Game.creeps).length == 0){
             Game.spawns['Spawn1'].spawnCreep([WORK,WORK,CARRY,MOVE], 'Beginner',{memory: {role: 'harvester'}}); //300

@@ -31,6 +31,8 @@ var createStructures = {
            Game.spawns['Spawn1'].room.createConstructionSite(destinations.path[destination],STRUCTURE_ROAD);
         }
 
+        // TODO create road from controller to closest source
+
         // place tower next to spawn
         //console.log(Game.spawns['Spawn1'].room.createConstructionSite((Game.spawns['Spawn1'].pos.x + 10), Game.spawns['Spawn1'].pos.y, STRUCTURE_TOWER));
         //console.log(Game.spawns['Spawn1'].pos);

@@ -1,3 +1,9 @@
+// TODO
+// build better defense
+// check creep.renew
+// rebuild ruins
+// build road between controller and closest source
+
 var roleHarvester       = require('role.harvester');
 var roleUpgrader        = require('role.upgrader');
 var roleBuilder         = require('role.builder');
