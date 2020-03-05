@@ -38,7 +38,7 @@ var roleLorry = {
         }
         else {
             var closestHostile = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-            var mostDamagedCreep = creep.room.find(FIND_CREEPS, { filter: (creep) => /*structure.structureType == STRUCTURE_WALL  &&*/ creep.hits < creep.hitsMax });
+            var mostDamagedCreep = creep.room.find(FIND_CREEPS, { filter: (creep) => creep.hits < creep.hitsMax });
             mostDamagedCreep.sort(function(a, b) {return (b.hitsMax - b.hits)-(a.hitsMax - a.hits)});
             //console.log(closestHostile);
             //console.log(mostDamagedCreep.length); // TODO
@@ -72,6 +72,18 @@ var roleLorry = {
                 if(targets2.length > 0) {
                     if(creep.transfer(targets2[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(targets2[0], {visualizePathStyle: {stroke: '#ffffff'}});
+                    }
+                }else{
+                    var targets3 = creep.room.find(FIND_STRUCTURES, {
+                        filter: (structure) => {
+                            return (structure.structureType == STRUCTURE_STORAGE) && 
+                                structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
+                        }
+                    });
+                    if(targets3.length > 0) {
+                        if(creep.transfer(targets3[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                            creep.moveTo(targets3[0], {visualizePathStyle: {stroke: '#ffffff'}});
+                        }
                     }
                 }
             }

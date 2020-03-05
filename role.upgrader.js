@@ -29,24 +29,20 @@ var roleUpgrader = {
             }
         }
         else {
-            var sources = creep.room.find(FIND_STRUCTURES, {
+            var source = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return structure.structureType == STRUCTURE_CONTAINER;
                 }
             });
             //sources.sort(function(a, b) {return b.store.getUsedCapacity()-a.store.getUsedCapacity()});
-            if(sources.length > 0){
-                if(creep.withdraw(sources[1], RESOURCE_ENERGY) != 0) {
-                    if(sources[1].store.getUsedCapacity() != 0){ 
-                        creep.moveTo(sources[1], {visualizePathStyle: {stroke: '#ffaa00'}});
-                    }else if(sources[0].store.getUsedCapacity() != 0){
-                        creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
-                    }
+            if(source && source.store.getUsedCapacity() != 0){
+                if(creep.withdraw(source, RESOURCE_ENERGY) != 0) {
+                    creep.moveTo(source, {visualizePathStyle: {stroke: '#ffffff'}});
                 }
             }else{
-                sources = creep.room.find(FIND_SOURCES);
-                if(creep.harvest(sources[1]) != 0) {
-                    creep.moveTo(sources[1], {visualizePathStyle: {stroke: '#ffaa00'}});
+                source = creep.pos.findClosestByRange(FIND_SOURCES); // TODO what contains FIND_SOURCES?
+                if(creep.harvest(source) != 0) {
+                    creep.moveTo(source, {visualizePathStyle: {stroke: '#ffffff'}});
                 }
             }
         }

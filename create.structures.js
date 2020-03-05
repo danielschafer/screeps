@@ -1,6 +1,7 @@
 var createStructures = {
 
     run: function() {
+
         // create roads and containers to sources
         var goals = _.map(Game.spawns['Spawn1'].room.find(FIND_SOURCES), function(source) {
             return { pos: source.pos, range: 1 };
@@ -30,8 +31,18 @@ var createStructures = {
            //console.log(Game.spawns['Spawn1'].room.createConstructionSite(destinations.path[destination],STRUCTURE_ROAD));
            Game.spawns['Spawn1'].room.createConstructionSite(destinations.path[destination],STRUCTURE_ROAD);
         }
+        
+        // TODO create road from controller to closest source PS: check if this works correctly!
+        var closestSourceToController = Game.spawns['Spawn1'].room.controller.pos.findClosestByRange(FIND_SOURCES);
+        //console.log(closestSourceToController.pos);
+        var destinations = PathFinder.search(Game.spawns['Spawn1'].room.controller.pos, closestSourceToController.pos);
+        //console.log(destinations.path);
+        for(var destination in destinations.path){   
+            //console.log(destinations.path[destination]); 
+            //console.log(Game.spawns['Spawn1'].room.createConstructionSite(destinations.path[destination],STRUCTURE_ROAD));
+            Game.spawns['Spawn1'].room.createConstructionSite(destinations.path[destination],STRUCTURE_ROAD);
+        }
 
-        // TODO create road from controller to closest source
 
         // place tower next to spawn
         //console.log(Game.spawns['Spawn1'].room.createConstructionSite((Game.spawns['Spawn1'].pos.x + 10), Game.spawns['Spawn1'].pos.y, STRUCTURE_TOWER));

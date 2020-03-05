@@ -1,8 +1,9 @@
 // TODO
-// build better defense
-// check creep.renew
-// rebuild ruins
-// build road between controller and closest source
+// -build better defense
+// -rebuild ruins
+// -build road between controller and closest source
+// - pickup dropped sources
+// - calculate path to dying miner to build new miner before old one dies
 
 var roleHarvester       = require('role.harvester');
 var roleUpgrader        = require('role.upgrader');
@@ -19,7 +20,7 @@ var createStructures    = require('create.structures');
 
 module.exports.loop = function () {
     createCreeps.run();
-    if (Game.time % 10 == 0) { 
+    if (Game.time % 100 == 0) {  // TODO undo comment
         createStructures.run();
     }
 
